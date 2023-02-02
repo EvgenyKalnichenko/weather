@@ -22,7 +22,7 @@
 import WeatherWidgetCard from "./WeatherWidgetCard.vue";
 import { useWeatherStore } from "@/stores/useWeatherStore";
 import WeatherWidgetSettings from "./WeatherWidgetSettings.vue";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 
 const store = useWeatherStore();
 const error = ref();
@@ -53,6 +53,14 @@ if (!store.weatherList.length) {
 } else {
   store.updateStore();
 }
+
+watch(() => store.weatherList, (newVal, oldVal) => {
+  if(newVal.length) {
+    error.value = ''
+  } else {
+    error.value = 'Not found'
+  }
+}, { deep: true })
 </script>
 
 <style lang="scss" scoped>
@@ -61,7 +69,7 @@ if (!store.weatherList.length) {
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-gap: 1rem;
   }
 }

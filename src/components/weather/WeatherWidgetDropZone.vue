@@ -19,7 +19,7 @@
       {{ item.name }}
       <RemoveIcon
         class="drop-zone__remove"
-        @click="store.removeByid(item.id)"
+        @click="store.removeById(item.id)"
       />
     </div>
   </div>

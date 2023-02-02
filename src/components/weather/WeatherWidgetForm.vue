@@ -1,9 +1,9 @@
 <template>
-  <form class="form-search" @submit.prevent="store.getCityWeather(city)">
+  <form class="form-search" @submit.prevent="submit">
     <div class="form-search__title">Add city</div>
     <div class="form-search__grid">
       <UiInput placeholder="Add city" v-model="city" />
-      <UiButton>Add</UiButton>
+      <UiButton type="submit">Add</UiButton>
     </div>
   </form>
   <form
@@ -14,7 +14,7 @@
     <div class="form-search__grid">
       <UiInput placeholder="lon" v-model="lon" @input="mask" />
       <UiInput placeholder="lat" v-model="lat" @input="mask" />
-      <UiButton>Add</UiButton>
+      <UiButton type="submit">Add</UiButton>
     </div>
   </form>
 </template>
@@ -29,6 +29,12 @@ const city = ref("");
 const lon = ref();
 const lat = ref();
 const store = useWeatherStore();
+
+const submit = () => {
+  console.log('submit', city.value);
+
+  store.getCityWeather(city.value)
+}
 
 const mask = (event: Event) => {
   // @ts-ignore

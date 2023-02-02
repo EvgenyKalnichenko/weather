@@ -6,27 +6,28 @@ import type { AxiosResponse } from "axios";
 
 export const useWeatherStore = defineStore("weather", () => {
   const weatherList = ref<Array<IWeather>>(
-    JSON.parse(localStorage.getItem("store") || "[]")
+    JSON.parse(localStorage.getItem("store") || "[]") || []
   );
 
   const getCityWeather = async (name: string) => {
-    const { data }: AxiosResponse<IWeather> =
-      await weatherServices.getCityWeather(name);
-    if (weatherList.value.find((el) => el.id === data.id)) return;
-    weatherList.value.push(data);
-    setLocalStorage();
+    const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(name);
+
+    if (!weatherList.value.find((el) => el.id === data.id)) {
+      weatherList.value.push(data);
+      setLocalStorage();
+    }
   };
 
   const getGeoLocationWeather = async (lat: number, lon: number) => {
-    const { data }: AxiosResponse<IWeather> =
-      await weatherServices.getWeatherInPoint(lat, lon);
+    const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(lat, lon);
     if (weatherList.value.find((el) => el.id === data.id)) return false;
     weatherList.value.push(data);
     setLocalStorage();
   };
 
-  const removeByid = (id: number) => {
+  const removeById = (id: number) => {
     weatherList.value = weatherList.value.filter((el) => el.id !== id);
+    console.log('weatherList.value')
     setLocalStorage();
   };
 
@@ -62,7 +63,7 @@ export const useWeatherStore = defineStore("weather", () => {
     getGeoLocationWeather,
     updateStore,
     getCityWeather,
-    removeByid,
+    removeById,
     sortWeatherList,
   };
 });
