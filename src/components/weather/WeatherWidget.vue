@@ -54,13 +54,17 @@ if (!store.weatherList.length) {
   store.updateStore();
 }
 
-watch(() => store.weatherList, (newVal, oldVal) => {
-  if(newVal.length) {
-    error.value = ''
-  } else {
-    error.value = 'Not found'
-  }
-}, { deep: true })
+watch(
+  () => store.weatherList,
+  (newVal) => {
+    if (newVal.length) {
+      error.value = "";
+    } else {
+      error.value = "Not found";
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style lang="scss" scoped>

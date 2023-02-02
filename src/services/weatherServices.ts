@@ -5,7 +5,7 @@ class WeatherServices {
     return await $api.get("", { params: { q: city, units: "metric" } });
   }
 
-  async getWeatherInPoint(lat: number, lon: number) {
+  async getWeatherInPoint(lat: number | string, lon: number | string) {
     return await $api.get("", { params: { lat, lon, units: "metric" } });
   }
 }

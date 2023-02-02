@@ -33,11 +33,13 @@ function toggle() {
     margin-left: auto;
     display: flex;
     cursor: pointer;
-    transition: 0.2s color ease;
+    transition: 0.2s opacity ease;
     margin-bottom: 15px;
 
-    &:hover {
-      color: var(--vt-c-red);
+    @media (hover: hover) {
+      &:hover {
+        opacity: 0.65;
+      }
     }
   }
 }

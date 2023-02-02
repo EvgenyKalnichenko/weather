@@ -51,7 +51,7 @@ defineProps<{
 .card-weather {
   padding: 20px;
   border-radius: 5px;
-  box-shadow: 0 0 21px 0 rgba(34, 60, 80, 0.2);
+  box-shadow: 0 0 21px 0 var(--color-border);
 
   .center {
     display: flex;

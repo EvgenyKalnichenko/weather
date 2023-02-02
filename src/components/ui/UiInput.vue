@@ -68,14 +68,15 @@ const handlerInput = (event: Event) => {
     font-size: 1rem;
     line-height: 1.5;
     color: #495057;
-    background-color: #fff;
+    background-color: var(--color-background);
     background-clip: padding-box;
     border-radius: 5px;
-    border: 1px solid #ced4da;
+    border: 1px solid var(--color-border);
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+
     &:focus {
       color: #495057;
-      background-color: #fff;
+      background-color: var(--color-background-soft);
       border-color: #80bdff;
       outline: 0;
       box-shadow: 0 0 0 0.2rem rgb(0 123 255 / 25%);
@@ -86,7 +87,7 @@ const handlerInput = (event: Event) => {
     margin-bottom: 0.25rem;
   }
   &__error {
-    color: #b30404;
+    color: var(--vt-c-red);
     font-size: 10px;
     position: absolute;
     top: 100%;

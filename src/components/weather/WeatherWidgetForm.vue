@@ -1,49 +1,15 @@
 <template>
-  <form class="form-search" @submit.prevent="submit">
-    <div class="form-search__title">Add city</div>
-    <div class="form-search__grid">
-      <UiInput placeholder="Add city" v-model="city" />
-      <UiButton type="submit">Add</UiButton>
-    </div>
-  </form>
-  <form
-    class="form-search"
-    @submit.prevent="store.getGeoLocationWeather(lat, lon)"
-  >
-    <div class="form-search__title">Add points</div>
-    <div class="form-search__grid">
-      <UiInput placeholder="lon" v-model="lon" @input="mask" />
-      <UiInput placeholder="lat" v-model="lat" @input="mask" />
-      <UiButton type="submit">Add</UiButton>
-    </div>
-  </form>
+  <FormSearch />
+  <FormAddPoints />
 </template>
 
 <script setup lang="ts">
-import UiInput from "@/components/ui/UiInput.vue";
-import UiButton from "@/components/ui/UiButton.vue";
-import { useWeatherStore } from "@/stores/useWeatherStore";
-import { ref } from "vue";
-
-const city = ref("");
-const lon = ref();
-const lat = ref();
-const store = useWeatherStore();
-
-const submit = () => {
-  console.log('submit', city.value);
-
-  store.getCityWeather(city.value)
-}
-
-const mask = (event: Event) => {
-  // @ts-ignore
-  console.log("mask", event.target.value);
-};
+import FormSearch from "@/components/weather/form/FormSearch.vue";
+import FormAddPoints from "@/components/weather/form/FormAddPoints.vue";
 </script>
 
-<style lang="scss" scoped>
-.form-search {
+<style lang="scss">
+.form {
   margin-bottom: 20px;
 
   &__title {
@@ -55,6 +21,13 @@ const mask = (event: Event) => {
   &__grid {
     display: flex;
     gap: 15px;
+  }
+
+  &__error {
+    color: var(--vt-c-red);
+    font-size: 16px;
+    margin: 15px 0;
+    text-align: center;
   }
 }
 </style>
