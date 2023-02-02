@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="drop-zone"
-  >
+  <div class="drop-zone">
     <div
       v-for="item in store.weatherList"
       :key="item.id"
@@ -9,7 +7,7 @@
       class="drop-zone__item"
     >
       <span
-        class="drop-zone__move" 
+        class="drop-zone__move"
         draggable="true"
         @dragover.prevent
         @dragenter.prevent
@@ -19,44 +17,48 @@
         <HamburgerIcon />
       </span>
       {{ item.name }}
-      <RemoveIcon class="drop-zone__remove" @click="store.removeByid(item.id)" />
+      <RemoveIcon
+        class="drop-zone__remove"
+        @click="store.removeByid(item.id)"
+      />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import RemoveIcon from '@/components/icons/remove.vue'
-import HamburgerIcon from '@/components/icons/hamburger.vue'
-import { useWeatherStore } from '@/stores/useWeatherStore';
+import RemoveIcon from "@/components/icons/removeIcon.vue";
+import HamburgerIcon from "@/components/icons/hamburgerIcon.vue";
+import { useWeatherStore } from "@/stores/useWeatherStore";
 
-const store = useWeatherStore()
+const store = useWeatherStore();
 
 function startDrag(evt: any, id: number) {
-  console.log('startDrag', id);
-  
-      evt.dataTransfer.dropEffect = 'move'
-      evt.dataTransfer.effectAllowed = 'move'
-      evt.dataTransfer.setData('itemID', id)
-    }
+  console.log("startDrag", id);
 
-function onDrop(evt: any, id: number) {
-  console.log('onDrop', id);
-  
-const dropItem = store.weatherList.find((el, index) => el.id === id ? index : false)
-  console.log('dropItem', dropItem);
-  let swapItem: number | null = null
-  let onDropItem: number | null = null
-  const itemID = parseInt(evt.dataTransfer.getData('itemID'))
-  store.weatherList.forEach( async (el, index) => {
-      if(el.id === itemID) swapItem = index
-      if(el.id === id) onDropItem = index
-  })
-
-  if(typeof swapItem === 'number' && typeof onDropItem === 'number') {
-    store.sortWeatherList(onDropItem, swapItem)
-  }
+  evt.dataTransfer.dropEffect = "move";
+  evt.dataTransfer.effectAllowed = "move";
+  evt.dataTransfer.setData("itemID", id);
 }
 
+function onDrop(evt: any, id: number) {
+  console.log("onDrop", id);
+
+  const dropItem = store.weatherList.find((el, index) =>
+    el.id === id ? index : false
+  );
+  console.log("dropItem", dropItem);
+  let swapItem: number | null = null;
+  let onDropItem: number | null = null;
+  const itemID = parseInt(evt.dataTransfer.getData("itemID"));
+  store.weatherList.forEach(async (el, index) => {
+    if (el.id === itemID) swapItem = index;
+    if (el.id === id) onDropItem = index;
+  });
+
+  if (typeof swapItem === "number" && typeof onDropItem === "number") {
+    store.sortWeatherList(onDropItem, swapItem);
+  }
+}
 </script>
 
 <style lang="scss" scoped>

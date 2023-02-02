@@ -1,9 +1,6 @@
 <template>
   <div class="settings">
-    <div
-      @click="toggle"
-      class="settings__icon"
-    >
+    <div @click="toggle" class="settings__icon">
       <SettingsIcon />
     </div>
     <div v-if="show" class="settings__detail">
@@ -16,14 +13,14 @@
 <script setup lang="ts">
 import WeatherWidgetForm from "./WeatherWidgetForm.vue";
 import WeatherWidgetDropZone from "./WeatherWidgetDropZone.vue";
-import SettingsIcon from '@/components/icons/settings.vue'
+import SettingsIcon from "@/components/icons/settingsIcon.vue";
 import { ref } from "vue";
 
-const show = ref(false)
+const show = ref(false);
 
 function toggle() {
-  console.log('openSettings');
-  show.value = !show.value
+  console.log("openSettings");
+  show.value = !show.value;
 }
 </script>
 
@@ -44,5 +41,4 @@ function toggle() {
     }
   }
 }
-
 </style>
