@@ -37,16 +37,22 @@ export const useWeatherStore = defineStore("weather", () => {
   };
 
   const updateStore = async () => {
-    const newStore: Array<IWeather> = [];
-    for (const item of weatherList.value) {
-      const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(item.name);
-      newStore.push(data);
-    }
+    // const newStore: Array<IWeather> = [];
+    // for (const item of weatherList.value) {
+    //   const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(item.name);
+    //   newStore.push(data);
+    // }
   
-    if (newStore) {
-      weatherList.value = newStore;
+    // if (newStore) {
+    //   weatherList.value = newStore;
+    //   setLocalStorage();
+    // }
+    weatherList.value.forEach(async (element) => {
+      const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(element.name);
+      const index = weatherList.value.findIndex(el => el.id === data.id);
+      weatherList.value[index] = data;
       setLocalStorage();
-    }
+    });
   };
 
   function sortWeatherList(first: number, second: number) {
