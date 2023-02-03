@@ -12,6 +12,12 @@
         />
       </TransitionGroup>
     </div>
+    <div
+      v-if="isLoading"
+      class="weather-widget__loading"
+    >
+      <UILoader />
+    </div>
     <div class="weather-widget__error">
       {{ error }}
     </div>
@@ -23,11 +29,14 @@ import WeatherWidgetCard from "./WeatherWidgetCard.vue";
 import { useWeatherStore } from "@/stores/useWeatherStore";
 import WeatherWidgetSettings from "./WeatherWidgetSettings.vue";
 import { ref, watch } from "vue";
+import UILoader from "../ui/UILoader.vue";
 
 const store = useWeatherStore();
 const error = ref();
+const isLoading = ref(false);
 
 if (!store.weatherList.length) {
+  isLoading.value = true
   new Promise<{ lat: number; lon: number }>((resolve, reject) => {
     navigator.geolocation.getCurrentPosition(
       // TODO type GeolocationPosition fix eslint
@@ -42,14 +51,21 @@ if (!store.weatherList.length) {
         reject(err);
       }
     );
-  })
-    .then(({ lat, lon }) => {
-      console.log("Ваше местоположение", lat, lon);
-      store.getGeoLocationWeather(lat, lon);
-    })
-    .catch((err) => {
-      error.value = err.message;
+  }).then(async ({ lat, lon }) => {
+    console.log("Ваше местоположение", lat, lon);
+    store.getGeoLocationWeather(lat, lon).then(data => {
+      isLoading.value = false
+    }).catch((err) => {
+      console.error('Ошибка', err);
+      isLoading.value = false;
+      error.value = "Error";
+
     });
+  }).catch((err) => {
+    isLoading.value = false
+    console.error('Ошибка', err);
+    error.value = err.message;
+  });
 } else {
   store.updateStore();
 }
@@ -75,6 +91,17 @@ watch(
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     grid-gap: 1rem;
+  }
+
+  &__loading {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
 

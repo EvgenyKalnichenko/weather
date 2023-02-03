@@ -11,13 +11,13 @@ export const useWeatherStore = defineStore("weather", () => {
 
   const getCityWeather = async (name: string) => {
     const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(name);
-
     setWeather(data);
   };
 
   const getGeoLocationWeather = async (lat: number, lon: number) => {
     const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(lat, lon);
     setWeather(data);
+    return data
   };
 
   const setWeather = (data: IWeather) => {
@@ -37,18 +37,8 @@ export const useWeatherStore = defineStore("weather", () => {
   };
 
   const updateStore = async () => {
-    // const newStore: Array<IWeather> = [];
-    // for (const item of weatherList.value) {
-    //   const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(item.name);
-    //   newStore.push(data);
-    // }
-  
-    // if (newStore) {
-    //   weatherList.value = newStore;
-    //   setLocalStorage();
-    // }
     weatherList.value.forEach(async (element) => {
-      const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(element.coord.lon, element.coord.lat);
+      const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(element.coord.lat, element.coord.lon);
       const index = weatherList.value.findIndex(el => el.coord.lon === data.coord.lon && el.coord.lat === data.coord.lat);
       weatherList.value[index] = data;
       setLocalStorage();
