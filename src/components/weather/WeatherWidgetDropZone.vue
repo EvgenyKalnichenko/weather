@@ -63,7 +63,7 @@ function onDrop(evt: any, id: number) {
   flex-direction: column;
   gap: 10px;
 
-  &__item { 
+  &__item {
     display: inline-flex;
     padding: 0;
     background-color: var(--vt-c-text-dark-2);
