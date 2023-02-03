@@ -39,8 +39,11 @@ export const useWeatherStore = defineStore("weather", () => {
   const updateStore = async () => {
     weatherList.value.forEach(async (element) => {
       const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(element.coord.lat, element.coord.lon);
-      const index = weatherList.value.findIndex(el => el.coord.lon === data.coord.lon && el.coord.lat === data.coord.lat);
-      weatherList.value[index] = data;
+
+      const idx = weatherList.value.findIndex(el => el.name === data.name);
+      weatherList.value[idx] = data;
+      // const index = weatherList.value.findIndex(el => el.coord.lon === data.coord.lon && el.coord.lat === data.coord.lat);
+      // weatherList.value[index] = data;
       setLocalStorage();
     });
   };
