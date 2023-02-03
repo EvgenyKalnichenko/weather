@@ -6,7 +6,7 @@
     <div v-else class="card-weather__top">{{ value.coord }}</div>
     <div class="card-weather__main">
       <img
-        :src="`http://openweathermap.org/img/w/${value.weather[0].icon}.png`"
+        :src="`https://openweathermap.org/img/w/${value.weather[0].icon}.png`"
         :alt="value.weather[0].description"
       />
       <div class="card-weather__temperature">{{ value.main.temp }} °C</div>

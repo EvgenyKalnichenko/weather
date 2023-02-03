@@ -1,4 +1,4 @@
-import { ref, reactive } from "vue";
+import { ref } from "vue";
 import { defineStore } from "pinia";
 import { weatherServices } from "@/services/weatherServices";
 import type { IWeather } from "@/services/type";
@@ -40,10 +40,12 @@ export const useWeatherStore = defineStore("weather", () => {
     weatherList.value.forEach(async (element) => {
       const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(element.name);
       const idx = weatherList.value.findIndex(el => el.name === data.name);
-      weatherList.value[idx] = data;
+      if(typeof idx === 'number') {
+        weatherList.value[idx] = data;
+        setLocalStorage();
+      }
       // const index = weatherList.value.findIndex(el => el.coord.lon === data.coord.lon && el.coord.lat === data.coord.lat);
       // weatherList.value[index] = data;
-      setLocalStorage();
     });
   };
 
