@@ -42,9 +42,10 @@ import WindIcon from "@/components/icons/windIcon.vue";
 import HumibityIcon from "@/components/icons/humidityIcon.vue";
 import EyeIcon from "@/components/icons/eyeIcon.vue";
 
-defineProps<{
+const props = defineProps<{
   value: IWeather;
 }>();
+
 </script>
 
 <style lang="scss" scoped>

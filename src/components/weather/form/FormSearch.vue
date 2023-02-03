@@ -1,17 +1,17 @@
 <template>
-  <form class="form" @submit.prevent="onSubmit">
-    <div class="form__title">Add city</div>
-    <div class="form__grid">
-      <UiInput placeholder="Add city" v-model="city" :error="cityError" />
-      <UiButton type="submit">Add</UiButton>
-    </div>
-    <div class="form__error">
-      {{ errorFormCity }}
-    </div>
-  </form>
+  <FormWrapper
+    title="Add city"
+    :error="errorFormCity"
+    :is-loading="isLoading"
+    @submit="onSubmit"
+  >
+    <UiInput placeholder="Add city" v-model="city" :error="cityError" />
+    <UiButton type="submit">Add</UiButton>
+  </FormWrapper>
 </template>
 
 <script lang="ts" setup>
+
 import { useForm, useField } from "vee-validate";
 import { ref } from "vue";
 import { useWeatherStore } from "@/stores/useWeatherStore";
@@ -20,6 +20,7 @@ import type { IWeather } from "@/services/type";
 import { weatherServices } from "@/services/weatherServices";
 import UiInput from "@/components/ui/UiInput.vue";
 import UiButton from "@/components/ui/UiButton.vue";
+import FormWrapper from "@/components/weather/form/FormWrapper.vue";
 
 const isLoading = ref(false);
 const errorFormCity = ref("");
@@ -43,12 +44,15 @@ function onInvalidSubmit({ errors }) {
 }
 const onSubmit = handleSubmit(async () => {
   console.log("handleSubmit !!!!!!");
+  isLoading.value = true
   try {
     const { data }: AxiosResponse<IWeather> =
-      await weatherServices.getCityWeather(city.value);
+    await weatherServices.getCityWeather(city.value);
     setWeather(data);
+    isLoading.value = false
   } catch (e: any) {
     errorFormCity.value = e.response?.data.message;
+    isLoading.value = false
   }
 }, onInvalidSubmit);
 </script>

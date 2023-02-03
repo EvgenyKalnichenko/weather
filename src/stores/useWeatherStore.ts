@@ -10,15 +10,13 @@ export const useWeatherStore = defineStore("weather", () => {
   );
 
   const getCityWeather = async (name: string) => {
-    const { data }: AxiosResponse<IWeather> =
-      await weatherServices.getCityWeather(name);
+    const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(name);
 
     setWeather(data);
   };
 
   const getGeoLocationWeather = async (lat: number, lon: number) => {
-    const { data }: AxiosResponse<IWeather> =
-      await weatherServices.getWeatherInPoint(lat, lon);
+    const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(lat, lon);
     setWeather(data);
   };
 
@@ -31,7 +29,6 @@ export const useWeatherStore = defineStore("weather", () => {
 
   const removeById = (id: number) => {
     weatherList.value = weatherList.value.filter((el) => el.id !== id);
-    console.log("weatherList.value");
     setLocalStorage();
   };
 
@@ -41,13 +38,11 @@ export const useWeatherStore = defineStore("weather", () => {
 
   const updateStore = async () => {
     const newStore: Array<IWeather> = [];
-
     for (const item of weatherList.value) {
-      const { data }: AxiosResponse<IWeather> =
-        await weatherServices.getCityWeather(item.name);
+      const { data }: AxiosResponse<IWeather> = await weatherServices.getCityWeather(item.name);
       newStore.push(data);
     }
-
+  
     if (newStore) {
       weatherList.value = newStore;
       setLocalStorage();
@@ -55,10 +50,7 @@ export const useWeatherStore = defineStore("weather", () => {
   };
 
   function sortWeatherList(first: number, second: number) {
-    [weatherList.value[first], weatherList.value[second]] = [
-      weatherList.value[second],
-      weatherList.value[first],
-    ];
+    [weatherList.value[first], weatherList.value[second]] = [weatherList.value[second], weatherList.value[first]];
     setLocalStorage();
   }
 

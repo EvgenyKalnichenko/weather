@@ -33,20 +33,15 @@ import { useWeatherStore } from "@/stores/useWeatherStore";
 const store = useWeatherStore();
 
 function startDrag(evt: any, id: number) {
-  console.log("startDrag", id);
-
   evt.dataTransfer.dropEffect = "move";
   evt.dataTransfer.effectAllowed = "move";
   evt.dataTransfer.setData("itemID", id);
 }
 
 function onDrop(evt: any, id: number) {
-  console.log("onDrop", id);
-
   const dropItem = store.weatherList.find((el, index) =>
     el.id === id ? index : false
   );
-  console.log("dropItem", dropItem);
   let swapItem: number | null = null;
   let onDropItem: number | null = null;
   const itemID = parseInt(evt.dataTransfer.getData("itemID"));
@@ -68,8 +63,7 @@ function onDrop(evt: any, id: number) {
   flex-direction: column;
   gap: 10px;
 
-  &__item {
-    user-select: none;
+  &__item { 
     display: inline-flex;
     padding: 0;
     background-color: var(--vt-c-text-dark-2);

@@ -4,17 +4,20 @@
       <SettingsIcon />
     </div>
     <div v-if="show" class="settings__detail">
-      <WeatherWidgetForm />
+      <FormSearch />
+      <FormAddPoints />
       <WeatherWidgetDropZone />
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import WeatherWidgetForm from "./WeatherWidgetForm.vue";
+
 import WeatherWidgetDropZone from "./WeatherWidgetDropZone.vue";
 import SettingsIcon from "@/components/icons/settingsIcon.vue";
 import { ref } from "vue";
+import FormAddPoints from "./form/FormAddPoints.vue";
+import FormSearch from "./form/FormSearch.vue";
 
 const show = ref(false);
 

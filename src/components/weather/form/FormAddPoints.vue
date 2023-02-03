@@ -1,21 +1,21 @@
 <template>
-  <form class="form" @submit.prevent="onSubmit">
-    <div class="form__title">Add points</div>
-    <div class="form__grid">
-      <UiInput placeholder="lon" v-model="lon" :error="lonError" />
-      <UiInput placeholder="lat" v-model="lat" :error="latError" />
-      <UiButton type="submit">Add</UiButton>
-    </div>
-    <div class="form__error">
-      {{ errorForm }}
-    </div>
-  </form>
+  <FormWrapper
+    title="Add points"
+    :error="errorForm"
+    :is-loading="isLoading"
+    @submit="onSubmit"
+  >
+    <UiInput placeholder="lon" v-model="lon" :error="lonError" />
+    <UiInput placeholder="lat" v-model="lat" :error="latError" />
+    <UiButton type="submit">Add</UiButton>
+  </FormWrapper>
 </template>
 
 <script lang="ts" setup>
 import { useForm, useField } from "vee-validate";
 import UiInput from "@/components/ui/UiInput.vue";
 import UiButton from "@/components/ui/UiButton.vue";
+import FormWrapper from "@/components/weather/form/FormWrapper.vue";
 import { ref } from "vue";
 import type { AxiosResponse } from "axios";
 import type { IWeather } from "@/services/type";
@@ -45,11 +45,13 @@ function onInvalidSubmit({ errors }) {
   }
 }
 const onSubmit = handleSubmit(async () => {
+  isLoading.value = true
   try {
-    const { data }: AxiosResponse<IWeather> =
-      await weatherServices.getWeatherInPoint(lat.value, lon.value);
+    const { data }: AxiosResponse<IWeather> = await weatherServices.getWeatherInPoint(lat.value, lon.value);
+    isLoading.value = false
     setWeather(data);
   } catch (e: any) {
+    isLoading.value = false
     errorForm.value = e.response?.data.message;
   }
 }, onInvalidSubmit);
