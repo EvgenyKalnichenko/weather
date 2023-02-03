@@ -9,7 +9,7 @@ const $api = axios.create({
 
 $api.interceptors.request.use((config) => {
   config.params.appid = KEY_API;
-  config.params.lang = "ru";
+  config.params.lang = "en";
   return config;
 });
 
