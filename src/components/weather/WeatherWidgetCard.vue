@@ -5,10 +5,12 @@
     </div>
     <div v-else class="card-weather__top">{{ value.coord }}</div>
     <div class="card-weather__main">
-      <img
-        :src="`https://openweathermap.org/img/w/${value.weather[0].icon}.png`"
-        :alt="value.weather[0].description"
-      />
+      <div class="card-weather__img">
+        <img
+            :src="`https://openweathermap.org/img/w/${value.weather[0].icon}.png`"
+            :alt="value.weather[0].description"
+        />
+      </div>
       <div class="card-weather__temperature">{{ value.main.temp }} °C</div>
     </div>
     <div class="card-weather__row">
@@ -73,8 +75,19 @@ defineProps<{
   &__main {
     display: flex;
     margin: 15px 0;
-
     gap: 15px;
+  }
+
+  &__img {
+    display: block;
+    width: 50px;
+    height: 50px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
   }
 
   &__grid {
